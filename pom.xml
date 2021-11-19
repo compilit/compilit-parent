@@ -9,13 +9,18 @@
   <version>1.0.0</version>
 
   <properties>
-    <assertj.version>3.21.0</assertj.version>
     <jdk.version>11</jdk.version>
     <junit.jupiter.version>5.8.1</junit.jupiter.version>
+    <assertj.version>3.21.0</assertj.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
-    <maven.compiler.version>3.8.1</maven.compiler.version>
-    <maven.surefire.plugin.version>3.0.0-M3</maven.surefire.plugin.version>
+    <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <maven-scm-provider-gitexe.version>1.9.5</maven-scm-provider-gitexe.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
+    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
     <mockito.version>4.0.0</mockito.version>
   </properties>
 
@@ -34,34 +39,64 @@
     </developer>
   </developers>
 
-  <scm>
-    <connection>scm:git@github.com:harveytherabbit/solidcoding-validation.git</connection>
-    <developerConnection>scm:git@github.com:harveytherabbit/solidcoding-validation.git</developerConnection>
-    <url>https://github.com/harveytherabbit/solidcoding-validation</url>
-  </scm>
-
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.1</version>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
         <executions>
           <execution>
-            <id>attach-sources</id>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
             <goals>
-              <goal>jar-no-fork</goal>
+              <goal>deploy</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>${maven-release-plugin.version}</version>
+        <configuration>
+          <localCheckout>true</localCheckout>
+          <pushChanges>false</pushChanges>
+          <mavenExecutorId>forked-path</mavenExecutorId>
+          <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>${maven-scm-provider-gitexe.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${nexus-staging-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
-            <id>attach-javadocs</id>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>attach-javadoc</id>
             <goals>
               <goal>jar</goal>
             </goals>
@@ -70,21 +105,37 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadoc</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
-      <id>ci-cd</id>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>${maven-gpg-plugin.version}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -93,12 +144,8 @@
                   <goal>sign</goal>
                 </goals>
                 <configuration>
-                  <!-- Prevent gpg from using pinentry programs. Fixes: gpg: signing
-                      failed: Inappropriate ioctl for device -->
-                  <gpgArguments>
-                    <arg>--pinentry-mode</arg>
-                    <arg>loopback</arg>
-                  </gpgArguments>
+                  <keyname>${gpg.keyname}</keyname>
+                  <passphraseServerId>${gpg.keyname}</passphraseServerId>
                 </configuration>
               </execution>
             </executions>
@@ -107,12 +154,4 @@
       </build>
     </profile>
   </profiles>
-  
-    <distributionManagement>
-    <repository>
-      <id>ossrh</id>
-      <name>Central Repository OSSRH</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
 </project>
