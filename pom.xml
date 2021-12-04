@@ -26,7 +26,7 @@
 
   <properties>
     <jdk.version>11</jdk.version>
-    <junit.jupiter.version>5.8.1</junit.jupiter.version>
+    <junit.jupiter.version>5.8.2</junit.jupiter.version>
     <assertj.version>3.21.0</assertj.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
@@ -63,6 +63,31 @@
     <developerConnection>scm:git@github.com:solidcoding-org/solidcoding-parent.git</developerConnection>
     <url>https://github.com/solidcoding-org/solidcoding-parent</url>
   </scm>
+
+  <dependencies>
+
+    <dependency>
+      <artifactId>assertj-core</artifactId>
+      <groupId>org.assertj</groupId>
+      <scope>test</scope>
+      <version>${assertj.version}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${junit.jupiter.version}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>junit-jupiter-params</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${junit.jupiter.version}</version>
+    </dependency>
+
+  </dependencies>
 
   <build>
 
@@ -164,7 +189,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <!-- 2.22.0 + Needed for Junit 5 Maven integration -->
+            <!-- 2.22.0+ Needed for Junit 5 Maven integration -->
             <version>${maven-surefire-plugin.version}</version>
           </plugin>
           <plugin>
