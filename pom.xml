@@ -4,14 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.solidcoding</groupId>
-  <artifactId>solidcoding-parent</artifactId>
+  <groupId>com.compilit</groupId>
+  <artifactId>compilit-parent</artifactId>
   <version>1.1.0</version>
   <packaging>pom</packaging>
 
-  <name>Solidcoding parent pom</name>
-  <description>The parent pom to provide all solidcoding packages with some common dependencies and correct versions.</description>
-  <url>https://github.com/solidcoding-org/solidcoding-parent</url>
+  <name>Compilit parent pom</name>
+  <description>The parent pom to provide all compilit packages with some common dependencies and correct versions.</description>
+  <url>https://github.com/compilit/compilit-parent</url>
 
   <distributionManagement>
     <snapshotRepository>
@@ -46,7 +46,7 @@
   <licenses>
     <license>
       <name>MIT</name>
-      <url>https://github.com/solidcoding-org/solidcoding-parent/blob/main/LICENSE</url>
+      <url>https://github.com/compilit/compilit-parent/blob/main/LICENSE</url>
     </license>
   </licenses>
 
@@ -59,9 +59,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git@github.com:solidcoding-org/solidcoding-parent.git</connection>
-    <developerConnection>scm:git@github.com:solidcoding-org/solidcoding-parent.git</developerConnection>
-    <url>https://github.com/solidcoding-org/solidcoding-parent</url>
+    <connection>scm:git@github.com:compilit/compilit-parent.git</connection>
+    <developerConnection>scm:git@github.com:compilit/compilit-parent.git</developerConnection>
+    <url>https://github.com/compilit/compilit-parent</url>
   </scm>
 
   <dependencies>
