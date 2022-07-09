@@ -6,7 +6,7 @@
 
   <groupId>com.compilit</groupId>
   <artifactId>compilit-parent</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <packaging>pom</packaging>
 
   <name>Compilit parent pom</name>
@@ -27,7 +27,7 @@
   <properties>
     <jdk.version>11</jdk.version>
     <junit.jupiter.version>5.8.2</junit.jupiter.version>
-    <assertj.version>3.21.0</assertj.version>
+    <assertj.version>3.23.1</assertj.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
@@ -38,8 +38,8 @@
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
     <mockito.version>4.0.0</mockito.version>
-    <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
-    <maven-sonar-plugin.version>3.4.0.905</maven-sonar-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+    <maven-sonar-plugin.version>3.9.1.2184</maven-sonar-plugin.version>
     <jacoco.version>0.8.6</jacoco.version>
   </properties>
 
